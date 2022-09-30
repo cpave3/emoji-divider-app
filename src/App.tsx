@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React from "react";
 
+// @ts-ignore
 import name from "emoji-name-map";
 
 function classNames(...classes: string[]) {
@@ -94,7 +95,7 @@ export default function Example() {
                 max={20}
                 min={1}
                 className="w-12 mx-2"
-                onChange={(e) => setLimit(e.target.value)}
+                onChange={(e) => setLimit(Number.parseInt(e.target.value))}
                 value={limit}
               />
               <span>{limit == 1 ? "emoji" : "emojis"}</span>
@@ -144,7 +145,7 @@ function getResults(search: string) {
     return key.includes(search);
   });
 
-  const results = {};
+  const results: Record<string, string> = {};
 
   filtered.forEach((key) => {
     results[key] = emojis[key];
