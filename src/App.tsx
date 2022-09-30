@@ -1,34 +1,154 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+/* This example requires Tailwind CSS v2.0+ */
+import React from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+import name from "emoji-name-map";
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
 }
 
-export default App
+export default function Example() {
+  const [search, setSearch] = React.useState("");
+  const [selectedEmojis, setSelectedEmojis] = React.useState<string[]>([]);
+  const [limit, setLimit] = React.useState(12);
+
+  const emojiMap: Record<string, string> = getResults(search);
+
+  function handleEmojiClick(emoji: string) {
+    setSelectedEmojis((old) => [...old, emoji]);
+  }
+
+  function removeSelectedEmojiByIndex(index: number) {
+    setSelectedEmojis((old) => old.filter((_, i) => i !== index));
+  }
+
+  function generateBuffer(arr: any[], desiredTotal: number) {
+    const buffer = [];
+
+    // fill out the buffer by looping through the array, and adding items from it until we reach the desired total
+
+    for (
+      let i = 0;
+      buffer.length + arr.length < desiredTotal;
+      i < arr.length - 1 ? i++ : (i = 0)
+    ) {
+      buffer.push(arr[i % arr.length]);
+    }
+
+    return buffer;
+  }
+
+  function getFullEmojiArray() {
+    const buffer = generateBuffer(selectedEmojis, limit);
+    return [...selectedEmojis, ...buffer].map(
+      (emojiName) => name.emoji[emojiName]
+    );
+  }
+
+  return (
+    <main className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div className="flex justify-center h-20">
+        <ul className="flex text-5xl h-full align-middle justify-center">
+          {getFullEmojiArray().map((emoji, index) => {
+            const isBuffered = index >= selectedEmojis.length;
+            return (
+              <li
+                className={classNames(
+                  "flex align-middle leading-normal",
+                  isBuffered
+                    ? "opacity-50 cursor-not-allowed"
+                    : "cursor-pointer"
+                )}
+                onClick={
+                  !isBuffered
+                    ? () => removeSelectedEmojiByIndex(index)
+                    : undefined
+                }
+                key={`${emoji}:${index}`}
+              >
+                {emoji}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div className="p-4 flex justify-center flex-col">
+        {selectedEmojis.length > 0 ? (
+          <>
+            <div className="flex justify-center">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() =>
+                  window.navigator.clipboard.writeText(
+                    getFullEmojiArray().join("")
+                  )
+                }
+              >
+                Copy Emojis to Clipboard
+              </button>
+            </div>
+            <div className="flex justify-center pt-4">
+              <span>Repeat up to</span>
+              <input
+                type="number"
+                max={20}
+                min={1}
+                className="w-12 mx-2"
+                onChange={(e) => setLimit(e.target.value)}
+                value={limit}
+              />
+              <span>{limit == 1 ? "emoji" : "emojis"}</span>
+            </div>
+          </>
+        ) : (
+          <div className="flex justify-center">Select an emoji to begin</div>
+        )}
+      </div>
+      <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex justify-center mb-8">
+          <input
+            aria-label="Search for an emoji"
+            placeholder="Search for an emoji"
+            className="w-96 p-2 border border-gray-300 rounded"
+            type="text"
+            name="search"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+          />
+        </div>
+        <div>
+          <ul className="grid grid-cols-12">
+            {Object.keys(emojiMap).map((emoji) => {
+              return (
+                <li
+                  title={emoji}
+                  className="text-4xl flex justify-center cursor-pointer"
+                  key={emoji}
+                  onClick={() => handleEmojiClick(emoji)}
+                >
+                  {emojiMap[emoji]}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function getResults(search: string) {
+  const emojis = name.emoji;
+
+  const filtered = Object.keys(emojis).filter((key) => {
+    return key.includes(search);
+  });
+
+  const results = {};
+
+  filtered.forEach((key) => {
+    results[key] = emojis[key];
+  });
+
+  return results;
+}
