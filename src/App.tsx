@@ -118,7 +118,7 @@ export default function Example() {
           />
         </div>
         <div>
-          <ul className="grid grid-cols-12">
+          <ul className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-4">
             {Object.keys(emojiMap).map((emoji) => {
               return (
                 <li
