@@ -4,10 +4,26 @@ import React from "react";
 // @ts-ignore
 import name from "emoji-name-map";
 
-import { themes } from "./data/themes";
+import { ThemeName, themes } from "./data/themes";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
+}
+
+// determine if current month is october
+function isOctober() {
+  const today = new Date();
+  return today.getMonth() === 9;
+}
+
+// loop through each theme, and determine if any of them have a current month
+function getCurrentTheme() {
+  const themeNames = Object.keys(themes) as ThemeName[];
+  const currentMonth = new Date().getMonth();
+  const currentThemeName = themeNames.find(
+    (themeName) => themes[themeName].month === currentMonth
+  );
+  return currentThemeName ? themes[currentThemeName] : null;
 }
 
 export default function Example() {
@@ -49,23 +65,34 @@ export default function Example() {
   }
 
   const holidayButton = () => {
-    const getRandomSpookyEmojis = () => {
-      const spookyEmojis = [...themes.halloween];
+    const theme = getCurrentTheme();
+    const getRandomThemeEmojis = () => {
+      if (theme === null) {
+        return null;
+      }
+      const themeEmojis = [...theme.emojis];
 
       const randomEmojis = [];
       for (let i = 0; i < 3; i++) {
-        const randomIndex = Math.floor(Math.random() * spookyEmojis.length);
-        randomEmojis.push(spookyEmojis.splice(randomIndex, 1)[0]);
+        const randomIndex = Math.floor(Math.random() * themeEmojis.length);
+        randomEmojis.push(themeEmojis.splice(randomIndex, 1)[0]);
       }
       setSelectedEmojis(randomEmojis);
     };
 
+    if (theme === null) {
+      return null;
+    }
+
     return (
       <button
-        onClick={getRandomSpookyEmojis}
-        className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+        onClick={getRandomThemeEmojis}
+        className={classNames(
+          "text-white font-bold py-2 px-4 rounded",
+          theme.colorStyles
+        )}
       >
-        Get {selectedEmojis.length > 0 ? "more" : ""} Spooky Emojis
+        {theme.buttonText}
       </button>
     );
   };
