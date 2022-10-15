@@ -48,7 +48,7 @@ export default function Example() {
 
   return (
     <main className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-      <div className="flex justify-center h-20">
+      <div className="flex justify-center h-20 sticky top-0 bg-white border-b">
         <ul className="flex text-5xl h-full align-middle justify-center">
           {getFullEmojiArray().map((emoji, index) => {
             const isBuffered = index >= selectedEmojis.length;
