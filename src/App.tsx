@@ -4,6 +4,8 @@ import React from "react";
 // @ts-ignore
 import name from "emoji-name-map";
 
+import { themes } from "./data/themes";
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
@@ -46,6 +48,28 @@ export default function Example() {
     );
   }
 
+  const holidayButton = () => {
+    const getRandomSpookyEmojis = () => {
+      const spookyEmojis = [...themes.halloween];
+
+      const randomEmojis = [];
+      for (let i = 0; i < 3; i++) {
+        const randomIndex = Math.floor(Math.random() * spookyEmojis.length);
+        randomEmojis.push(spookyEmojis.splice(randomIndex, 1)[0]);
+      }
+      setSelectedEmojis(randomEmojis);
+    };
+
+    return (
+      <button
+        onClick={getRandomSpookyEmojis}
+        className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Get {selectedEmojis.length > 0 ? "more" : ""} Spooky Emojis
+      </button>
+    );
+  };
+
   return (
     <main className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="flex justify-center h-20 sticky top-0 bg-white border-b">
@@ -76,7 +100,7 @@ export default function Example() {
       <div className="p-4 flex justify-center flex-col">
         {selectedEmojis.length > 0 ? (
           <>
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-2">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() =>
@@ -87,6 +111,7 @@ export default function Example() {
               >
                 Copy Emojis to Clipboard
               </button>
+              {holidayButton()}
             </div>
             <div className="flex justify-center pt-4">
               <span>Repeat up to</span>
@@ -102,7 +127,10 @@ export default function Example() {
             </div>
           </>
         ) : (
-          <div className="flex justify-center">Select an emoji to begin</div>
+          <div className="flex justify-center items-center gap-2">
+            <span>Select an emoji to begin or</span>
+            {holidayButton()}
+          </div>
         )}
       </div>
       <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
