@@ -33,8 +33,8 @@ export const themes: Record<ThemeName, Theme> = {
     ],
   },
   thxGiving: {
-    month: 11,
-    colorStyles: "bg-red-600 hover:bg-red-800",
+    month: 10,
+    colorStyles: "bg-blue-600 hover:bg-blue-800",
     buttonText: "Give Thanks 🦃",
     emojis: [
       "turkey",
