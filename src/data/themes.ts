@@ -34,7 +34,7 @@ export const themes: Record<ThemeName, Theme> = {
   },
   thxGiving: {
     month: 10,
-    colorStyles: "bg-blue-600 hover:bg-blue-800",
+    colorStyles: "bg-green-600 hover:bg-green-800",
     buttonText: "Give Thanks 🦃",
     emojis: [
       "turkey",
@@ -47,6 +47,8 @@ export const themes: Record<ThemeName, Theme> = {
       "raised_hands",
       "corn",
       "potato",
+      "family_man_woman_girl_boy",
+      "handshake",
     ],
   },
   xmas: {
