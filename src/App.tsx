@@ -30,7 +30,7 @@ function getCurrentTheme() {
   const currentThemeName = themeNames.find(
     (themeName) => themes[themeName].month === currentMonth
   );
-  return currentThemeName ? themes[currentThemeName] : null;
+  return currentThemeName ? themes[currentThemeName] : themes["random"];
 }
 
 export default function Example() {

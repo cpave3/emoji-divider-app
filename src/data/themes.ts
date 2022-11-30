@@ -1,4 +1,6 @@
-export type ThemeName = "halloween" | "xmas" | "thxGiving";
+import name from "emoji-name-map";
+
+export type ThemeName = "halloween" | "xmas" | "thxGiving" | "random";
 
 export type Theme = {
   month: number;
@@ -8,6 +10,12 @@ export type Theme = {
 };
 
 export const themes: Record<ThemeName, Theme> = {
+  random: {
+    month: -1,
+    colorStyles: "bg-orange-600 hover:bg-orange-800",
+    buttonText: "I'm feeling lucky 👀",
+    emojis: Object.keys(name.emoji),
+  },
   halloween: {
     month: 9,
     colorStyles: "bg-violet-600 hover:bg-violet-800",
