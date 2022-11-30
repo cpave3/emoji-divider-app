@@ -18,6 +18,13 @@ function isOctober() {
 
 // loop through each theme, and determine if any of them have a current month
 function getCurrentTheme() {
+  const params = new URLSearchParams(window.location.search);
+  const themeOverride = params.get("theme");
+
+  if (themeOverride && themes[themeOverride as ThemeName]) {
+    return themes[themeOverride as ThemeName];
+  }
+
   const themeNames = Object.keys(themes) as ThemeName[];
   const currentMonth = new Date().getMonth();
   const currentThemeName = themeNames.find(
