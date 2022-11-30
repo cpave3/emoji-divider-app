@@ -1,3 +1,4 @@
+// @ts-ignore
 import name from "emoji-name-map";
 
 export type ThemeName = "halloween" | "xmas" | "thxGiving" | "random";
