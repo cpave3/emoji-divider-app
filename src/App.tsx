@@ -106,8 +106,8 @@ export default function Example() {
 
   return (
     <main className="mx-auto max-w-7xl sm:px-6 lg:px dark:bg-gray-800">
-      <div className="flex justify-center h-20 sticky top-0 dark:bg-gray-800 border-b">
-        <ul className="flex text-5xl h-full align-middle justify-center">
+      <div className="flex justify-center h-20 sticky top-0 dark:bg-gray-800 border-b dark:border-gray-700">
+        <ul className="flex text-5xl h-full align-middle justify-center dark:text-white">
           {getFullEmojiArray().map((emoji, index) => {
             const isBuffered = index >= selectedEmojis.length;
             return (
@@ -180,7 +180,7 @@ export default function Example() {
           />
         </div>
         <div>
-          <ul className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-4">
+          <ul className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12 gap-4 dark:text-white">
             {Object.keys(emojiMap).map((emoji) => {
               return (
                 <li
