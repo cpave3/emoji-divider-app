@@ -105,8 +105,8 @@ export default function Example() {
   };
 
   return (
-    <main className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-      <div className="flex justify-center h-20 sticky top-0 bg-white border-b">
+    <main className="mx-auto max-w-7xl sm:px-6 lg:px dark:bg-gray-800">
+      <div className="flex justify-center h-20 sticky top-0 dark:bg-gray-800 border-b">
         <ul className="flex text-5xl h-full align-middle justify-center">
           {getFullEmojiArray().map((emoji, index) => {
             const isBuffered = index >= selectedEmojis.length;
@@ -147,13 +147,13 @@ export default function Example() {
               </button>
               {holidayButton()}
             </div>
-            <div className="flex justify-center pt-4">
+            <div className="flex justify-center pt-4 dark:text-white">
               <span>Repeat up to</span>
               <input
                 type="number"
                 max={20}
                 min={1}
-                className="w-12 mx-2"
+                className="w-12 mx-2 text-black"
                 onChange={(e) => setLimit(Number.parseInt(e.target.value))}
                 value={limit}
               />
@@ -161,7 +161,7 @@ export default function Example() {
             </div>
           </>
         ) : (
-          <div className="flex justify-center items-center gap-2">
+          <div className="flex justify-center items-center gap-2 dark:text-white">
             <span>Select an emoji to begin or</span>
             {holidayButton()}
           </div>
