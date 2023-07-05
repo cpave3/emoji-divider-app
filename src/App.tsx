@@ -112,6 +112,7 @@ export default function Example() {
             const isBuffered = index >= selectedEmojis.length;
             return (
               <li
+                title={getNameFromEmoji(emoji)}
                 className={classNames(
                   "flex align-middle leading-normal",
                   isBuffered
@@ -202,6 +203,7 @@ export default function Example() {
 
 function getResults(search: string) {
   const emojis = name.emoji;
+  console.log({ name });
 
   const filtered = Object.keys(emojis).filter((key) => {
     return key.includes(search);
@@ -214,4 +216,16 @@ function getResults(search: string) {
   });
 
   return results;
+}
+
+function getNameFromEmoji(emoji: string) {
+  const emojis = name.emoji;
+
+  // swap the key and value of the emoji object
+  const swappedEmojis: Record<string, string> = {};
+  Object.keys(emojis).forEach((key) => {
+    swappedEmojis[emojis[key]] = key;
+  });
+
+  return swappedEmojis[emoji];
 }
