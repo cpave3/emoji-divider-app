@@ -37,6 +37,7 @@ export default function Example() {
   const [search, setSearch] = React.useState("");
   const [selectedEmojis, setSelectedEmojis] = React.useState<string[]>([]);
   const [limit, setLimit] = React.useState(12);
+  const [enableHolidayThemes, setEnableHolidayThemes] = React.useState(true);
 
   const emojiMap: Record<string, string> = getResults(search);
 
@@ -71,8 +72,8 @@ export default function Example() {
     );
   }
 
-  const holidayButton = () => {
-    const theme = getCurrentTheme();
+  const holidayButton = (useDynamicTheme = true) => {
+    const theme = useDynamicTheme ? getCurrentTheme() : themes["random"]; // default to the random theme
     const getRandomThemeEmojis = () => {
       if (theme === null) {
         return null;
@@ -103,6 +104,8 @@ export default function Example() {
       </button>
     );
   };
+
+  const hasHolidayTheme = getCurrentTheme().month !== -1;
 
   return (
     <main className="mx-auto max-w-7xl sm:px-6 lg:px dark:bg-gray-800">
@@ -135,7 +138,7 @@ export default function Example() {
       <div className="p-4 flex justify-center flex-col">
         {selectedEmojis.length > 0 ? (
           <>
-            <div className="flex justify-center gap-2">
+            <div className="flex justify-center items-center gap-2">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() =>
@@ -146,8 +149,28 @@ export default function Example() {
               >
                 Copy Emojis to Clipboard
               </button>
-              {holidayButton()}
+              {holidayButton(enableHolidayThemes)}
             </div>
+            {hasHolidayTheme && (
+              <div className="flex justify-center mt-4">
+                <input
+                  name="enableHolidayThemes"
+                  id="enableHolidayThemes"
+                  className="form-checkbox h-5 w-5 text-gray-600"
+                  type="checkbox"
+                  checked={enableHolidayThemes}
+                  onChange={(e) => setEnableHolidayThemes(e.target.checked)}
+                />
+                <label
+                  // tailwind checkbox css
+                  className="ml-1 block text-sm text-gray-900 dark:text-gray-600"
+                  htmlFor="enableHolidayThemes"
+                >
+                  use holiday theme
+                </label>
+              </div>
+            )}
+
             <div className="flex justify-center pt-4 dark:text-white">
               <span>Repeat up to</span>
               <input
